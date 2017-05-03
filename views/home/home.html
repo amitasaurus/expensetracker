@@ -1,3 +1,61 @@
 <navbar></navbar>
 <br>
-<h1>Expenses</h1>
+<h1>Expenses : <small class="text-muted">{{$ctrl.expenses.getTotal() | currency}}</small></h1>
+<br>
+
+<!-- form -->
+<form class="form-inline">
+  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Date" ng-model="$ctrl.date">
+
+  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Payee" ng-model="$ctrl.payee">
+
+  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Description" ng-model="$ctrl.desc">
+
+  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect"
+  ng-options="category.name for category in $ctrl.categories track by category.$id" ng-model="$ctrl.selectedCategory">
+  </select>
+
+  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Amount" ng-model="$ctrl.amount">
+
+  <button type="submit" class="btn btn-primary" 
+   ng-click="$ctrl.create()">Add</button>
+</form>
+
+<br>
+
+<!-- table -->
+<table class="table table-hover table-condensed">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Date</th>
+      <th>Payee</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="expense in $ctrl.expenses" 
+    	ng-mouseenter="hover = true" 
+    	ng-mouseleave="hover = false">
+      <th scope="row">{{expense.date | date: 'shortDate'}}</th>
+      <td>{{expense.payee}}</td>
+      <td>{{expense.description}}</td>
+      <td>{{expense.category.name}}</td>
+      <td>{{expense.amount | currency}}</td>
+      <td>
+      	<span ng-show="hover" 
+      		  ng-mouseenter="delHover = true" 
+      		  ng-mouseleave="delHover = false"
+      		  ng-class="{'hover-delete' : delHover}"
+      		  ng-click="$ctrl.expenses.$remove(expense)">
+      	<i class="material-icons">delete</i>
+      	</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- extending services : https://github.com/firebase/angularfire/blob/master/docs/guide/extending-services.md -->

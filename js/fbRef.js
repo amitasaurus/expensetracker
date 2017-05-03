@@ -3,7 +3,8 @@
 		   .factory('fbRef', function( rootRef , auth ){
 		   		return {
 		   			getPreferencesRef : getPreferencesRef,
-		   			getCategoriesRef : getCategoriesRef
+		   			getCategoriesRef : getCategoriesRef,
+		   			getExpenseRef : getExpenseRef
 		   		}
 
 		   		function getPreferencesRef(){
@@ -12,5 +13,9 @@
 		   		function getCategoriesRef(){
 		   			return rootRef.child('categories');
 		   		}
+		   		function getExpenseRef(){
+		   			return rootRef.child('expenses').child(auth.$getAuth().uid);
+		   		}
+		   		
 		   })
 })();
