@@ -18,7 +18,11 @@
   <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Amount" ng-model="$ctrl.amount">
 
   <button type="submit" class="btn btn-primary" 
-   ng-click="$ctrl.create()">Add</button>
+   ng-click="$ctrl.create()" ng-show="!$ctrl.editing">Add</button>
+  <button type="submit" class="btn btn-primary" 
+   ng-click="$ctrl.save()" ng-show="$ctrl.editing">Update</button>
+   <button type="submit" class="btn btn-danger" 
+   ng-click="$ctrl.cancel()" ng-show="$ctrl.editing">Cancel</button>
 </form>
 
 <br>
@@ -32,13 +36,14 @@
       <th>Description</th>
       <th>Category</th>
       <th>Amount</th>
-      <th></th>
+      <th><i class="material-icons">delete</i></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="expense in $ctrl.expenses" 
     	ng-mouseenter="hover = true" 
-    	ng-mouseleave="hover = false">
+    	ng-mouseleave="hover = false"
+    	ng-click="$ctrl.editExpense(expense)">
       <th scope="row">{{expense.date | date: 'shortDate'}}</th>
       <td>{{expense.payee}}</td>
       <td>{{expense.description}}</td>
@@ -56,6 +61,5 @@
     </tr>
   </tbody>
 </table>
-
 
 <!-- extending services : https://github.com/firebase/angularfire/blob/master/docs/guide/extending-services.md -->
